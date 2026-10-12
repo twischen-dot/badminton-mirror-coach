@@ -1,0 +1,12 @@
+# 创建分析后，将这些字段填入对应 runs/<分析名>/meta.toml。
+player = "player_a"
+handed = "right"  # right / left
+side = "near"     # 当前只支持近端半场
+jersey = "示例球衣颜色"
+opponent = "player_b"
+date = ""
+camera = "固定后方高机位"
+score = ""
+audio = ""         # 若另提供音频，由 new --audio 复制并填入
+# calib_ref_frame = 120
+notes = "示例占位信息，请按实际素材填写"

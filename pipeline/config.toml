@@ -1,0 +1,32 @@
+# 羽毛球视频分析流水线：全局配置
+# 每次分析的个性化信息写在 runs/<名字>/meta.toml，不写在这里。
+
+[check]
+min_width = 1280          # 低于此宽度直接退回
+min_fps = 25              # 低于此帧率直接退回
+recommend_fps = 50        # 低于此帧率给出警告（挥拍瞬间手臂容易丢失）
+max_minutes = 40          # 超长视频建议拆分
+
+[pose]
+num_poses = 2
+width = 1280              # 骨骼提取和叠加视频的宽度
+min_visibility = 0.3
+
+[events]
+highpass_hz = 2500        # 击球声主要在高频
+onset_db = 12             # 候选击球：比 1 秒背景高出多少分贝
+min_gap_s = 0.2           # 两个候选之间的最小间隔
+rally_db = 20             # 用于切分回合的"强击球声"阈值
+rally_gap_s = 3.5         # 强击球声间隔超过此值视为回合结束
+rally_min_hits = 4        # 少于此数的片段不算回合
+
+[metrics]
+smooth_frames = 15        # 位置平滑窗口（帧）；总跑动距离对此敏感，只报范围
+recover_radius_m = 1.2    # 回到离中心多近算"回位"
+avail_max_gap_s = 3.0     # 两次本方击球间隔超过此值，不计算准备时间
+front_y_m = 2.2           # 离网小于此值为前场
+rear_y_m = 4.0            # 离网大于此值为后场
+
+[reliability]
+# 2026-10-07 样本已证明测不准的指标，流水线不输出
+disabled = ["reaction_time", "knee_angle_from_behind", "exact_total_distance"]

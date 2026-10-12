@@ -1,0 +1,8 @@
+# 仅保留源码直接导入的第三方包；Python >= 3.11（标准库 tomllib）。
+# 对比渲染仍使用旧版 Solutions API，故限定兼容版本区间。
+mediapipe>=0.10.21,<0.10.22
+opencv-contrib-python>=4.11.0
+numpy>=1.26.4,<2
+Pillow>=10.4.0
+matplotlib>=3.9.0
+imageio-ffmpeg>=0.5.1
