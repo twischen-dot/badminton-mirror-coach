@@ -1,44 +1,45 @@
-Badminton Mirror Coach turns a retired phone, a Mac and a big screen into an "AI assistant coach" for a badminton hall.<br>
-It finds a player's key stroke, aligns it with an expert performing the same stroke at the moment of contact, and replays both side by side in slow motion.<br>
-AI finds and aligns the clips; the coach points out one problem; the player scans a QR code to take the comparison home and re-records next time.<br>
+Badminton Mirror Coach is an "AI assistant coach" for badminton halls, built from cameras, a Mac and a projector screen.<br>
+It keeps a weakness profile for each amateur player and, while they play, keeps showing their key weaknesses next to an expert performing the same stroke, aligned at the moment of contact and slowed down.<br>
+No on-site coach is needed: the AI selects what to show, and back-office staff review footage to keep improving the analysis.<br>
 Pose extraction, court calibration, hit-sound candidates, manual review and the comparison renderer exist today; detailed analysis has been validated on one rally of a public match.<br>
-Automatic stroke selection, live phone capture and QR hand-off are the 48-hour goals; no footage is distributed here.
+Weakness profiles, live camera input, delayed replay and QR hand-off are the 48-hour goals; no footage is distributed here.
 
 # 羽毛球对镜陪练
 
-**旧手机当眼睛，大屏把你和高手的同一动作并排慢放。**
+**场边摄像头加大屏，边打边看你和高手的差距。**
 
-打 3 分钟、看 1 分钟：这是陪练产品的目标节奏。当前版本仍需离线分析和人工复核，详见「已经做到哪一步」。
+当前版本仍需离线分析和人工复核，详见「已经做到哪一步」。
 
 ## 为什么做
 
-我是业余羽毛球教练。中羽四五级的爱好者想打到六七级，常常看不见自己的实际动作，也不知道和高手差在哪，私教又贵。希望让球友在场边直接看到同一动作的对比，再带着一个具体改进点回到球场练习。
+我是业余羽毛球教练。中羽 4 到 6 级的业余高手基础动作都没问题，难的是进一步提高：看不清自己的实际动作，不知道和高手差在哪，私教又贵。
 
 ## 怎么做
 
-把球馆闲置的**旧手机**架在场边当机位，连上 **Mac** 和**大屏**，做一名球馆里的「AI 助教」：
+在球馆场边装 3 到 4 个**摄像头**，对面装**投影大屏**，连上 **Mac**，做一名不占编制的「AI 助教」：
 
-1. 球友正常打 3 分钟，旧手机录像。
-2. Mac 本地用骨骼识别和击球声找出每一拍，挑出关键动作。
-3. 大屏把本人这一拍和高手同一动作**在击球瞬间对齐、并排慢放 3 遍**，看 1 分钟再上场。
-4. **AI 负责找片段和对齐，教练负责指出一个问题**，不由 AI 下结论。
-5. 球友扫码把对比片段和练习要点带回手机，下次复录，看有没有变化。
+1. 系统为每位球友建立**短板档案**。
+2. 球友正常打球，Mac 本地用骨骼识别和击球声分析每一拍。
+3. AI 结合档案和他最近的动作，在大屏**滚动播放他最该补的问题**：本人动作与高手同一动作在击球瞬间对齐、并排慢放，**边打边看边改**。
+4. **现场无需教练**：AI 挑选内容；后台人员根据现场录像不断校正算法，提高准确度和相关性。早期 AI 的判断经后台复核后再上屏。
+5. 球友扫码把记录带回手机，档案随每次训练更新，下次复测看进步。
 
-对球馆来说，它是一名不占编制的「AI 员工」；放进门店，顾客挥拍 30 秒就能看到自己和高手的差距。
+场边围观的球友也会被吸引，装了这套设施的场地能提高租金；日后可做成供业余高手约战和提高的**无人值守球馆**。摄像头便宜稳定，可定制成专用套件。
 
 ```mermaid
 flowchart LR
-    A[旧手机 / 摄像头录像：联动待接通] --> B[Mac 本地骨骼识别]
+    A[3–4 个场边摄像头：接入待完成] --> B[Mac 本地骨骼识别]
     B --> C[场地标定：人工复核]
     C --> D[击球声候选与逐拍复核]
-    D -. 自动挑关键动作：待实现 .-> E[选出本人片段与授权高手片段]
-    E --> F[击球瞬间对齐、骨骼叠加、并排慢放]
-    F -. 待联动 .-> G[大屏往复 3 遍]
-    G --> H[教练指出一个问题]
-    H -. 待实现 .-> I[球友扫码带走 · 下次复录对比]
+    D -. 待实现 .-> E[个人短板档案]
+    E -. 待实现 .-> F[选出本人片段与授权高手片段]
+    F --> G[击球瞬间对齐、骨骼叠加、并排慢放]
+    G -. 待联动 .-> H[投影大屏滚动播放 · 边打边看]
+    H -. 待实现 .-> I[扫码带走 · 下次复测]
+    D --> J[后台复核与算法校正]
 ```
 
-当前仓库提供分析流水线和独立的对比渲染脚本；虚线部分是 48 小时要接通的环节。
+当前仓库提供分析流水线和独立的对比渲染脚本；虚线部分是 48 小时及之后要接通的环节。
 
 ## 已经做到哪一步
 
@@ -104,7 +105,7 @@ curl -fL -o pose_landmarker_heavy.task \
 
 详细分析只在公开比赛视频的**一个回合**上验证过，还没分析用户本人的比赛。击球检测需人工复核；遮挡、挥拍手臂丢失和观众误检会影响结果。高手动作库目前没有授权素材，自动挑关键动作、大屏联动均未完成。
 
-**48 小时计划**：交付「旧手机 + Mac + 大屏」联动原型——录一段 → 自动挑出关键动作 → 与高手同一动作对齐并排慢放 → 球友扫码领取对比片段和练习要点。现场没有球场时，评委原地挥拍、做上网步法，大屏当场显示对比并扫码带走；另备真实球馆录像跑完整流程兜底。高手片段使用授权或教练自录素材。目标是挥拍后 **1 分钟内**看到对比，目前尚未达到，需要缩短分析链路和人工复核。
+**48 小时计划**：交付「摄像头 + Mac + 大屏」联动原型（比赛现场用手机临时充当机位）：为一位球友建立短板档案，大屏滚动播放他的短板与高手同一动作的对齐慢放，并实时延时回放刚才的画面；附后台复核页面，可修正 AI 判断。现场没有球场时，选手原地挥拍、走上网步法做演示，大屏当场显示对比并可扫码带走；另备真实球馆录像兜底。「根据最近动作实时挑内容」是之后的目标；摄像头实测 30fps，定制硬件需提高帧率；高手片段使用授权或教练自录素材。
 
 ## 许可
 
